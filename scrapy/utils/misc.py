@@ -6,6 +6,7 @@ from pkgutil import iter_modules
 
 import six
 from w3lib.html import replace_entities
+import warnings
 
 from scrapy.utils.python import flatten, to_unicode
 from scrapy.item import BaseItem
@@ -68,6 +69,9 @@ def walk_modules(path):
             if ispkg:
                 mods += walk_modules(fullpath)
             else:
+                if 'flycheck_' in fullpath:
+                    warnings.warn('ignore module {}'.format(fullpath), UserWarning)
+                    continue
                 submod = import_module(fullpath)
                 mods.append(submod)
     return mods
