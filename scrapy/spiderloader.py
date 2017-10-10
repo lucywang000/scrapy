@@ -37,6 +37,9 @@ class SpiderLoader(object):
             warnings.warn(msg, UserWarning)
 
     def _load_spiders(self, module):
+        if 'flycheck_' in module.__name__:
+            warnings.warn('ignore module {}'.format(module.__name__), UserWarning)
+            return
         for spcls in iter_spider_classes(module):
             self._found[spcls.name].append((module.__name__, spcls.__name__))
             self._spiders[spcls.name] = spcls
