@@ -77,7 +77,7 @@ class Shell(object):
                 shells += DEFAULT_PYTHON_SHELLS.keys()
             # always add standard shell as fallback
             shells += ['python']
-            start_python_console(self.vars, shells=shells,
+            return start_python_console(self.vars, shells=shells,
                                  banner=self.vars.pop('banner', ''))
 
     def _schedule(self, request, spider):

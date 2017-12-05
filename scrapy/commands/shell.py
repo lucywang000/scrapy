@@ -70,7 +70,7 @@ class Command(ScrapyCommand):
         self._start_crawler_thread()
 
         shell = Shell(crawler, update_vars=self.update_vars, code=opts.code)
-        shell.start(url=url, redirect=not opts.no_redirect)
+        return shell.start(url=url, redirect=not opts.no_redirect)
 
     def _start_crawler_thread(self):
         t = Thread(target=self.crawler_process.start,
