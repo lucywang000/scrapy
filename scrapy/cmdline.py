@@ -87,7 +87,7 @@ def _print_unknown_command(settings, cmdname, inproject):
 
 def _run_print_help(parser, func, *a, **kw):
     try:
-        func(*a, **kw)
+        return func(*a, **kw)
     except UsageError as e:
         if str(e):
             parser.error(str(e))
@@ -147,14 +147,17 @@ def execute(argv=None, settings=None):
     _run_print_help(parser, cmd.process_options, args, opts)
 
     cmd.crawler_process = CrawlerProcess(settings)
-    _run_print_help(parser, _run_command, cmd, args, opts)
+    if os.environ.get('IN_NOTEBOOK'):
+        return _run_print_help(parser, _run_command, cmd, args, opts)
+    else:
+        _run_print_help(parser, _run_command, cmd, args, opts)
     sys.exit(cmd.exitcode)
 
 def _run_command(cmd, args, opts):
     if opts.profile:
         _run_command_profiled(cmd, args, opts)
     else:
-        cmd.run(args, opts)
+        return cmd.run(args, opts)
 
 def _run_command_profiled(cmd, args, opts):
     if opts.profile:

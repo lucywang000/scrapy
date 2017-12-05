@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 from collections import OrderedDict
 
@@ -85,6 +86,9 @@ def start_python_console(namespace=None, banner='', shells=None):
     """
     if namespace is None:
         namespace = {}
+
+    if os.environ.get('IN_NOTEBOOK'):
+        return namespace, banner
 
     try:
         shell = get_shell_embed_func(shells)

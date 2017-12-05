@@ -60,6 +60,7 @@ class HTTP11DownloadHandler(object):
 
     def download_request(self, request, spider):
         """Return a deferred for the HTTP download"""
+        url = request.url
         agent = ScrapyAgent(contextFactory=self._contextFactory, pool=self._pool,
             maxsize=getattr(spider, 'download_maxsize', self._default_maxsize),
             warnsize=getattr(spider, 'download_warnsize', self._default_warnsize),
